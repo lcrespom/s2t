@@ -58,7 +58,8 @@ function drawOsc(gc: CanvasRenderingContext2D, canvas: HTMLCanvasElement,
 	gc.closePath();
 }
 
-function setupDraw(gc, canvas, data, color) {
+function setupDraw(gc: CanvasRenderingContext2D, canvas: HTMLCanvasElement,
+	data: Uint8Array, color: string) {
 	const w = canvas.width;
 	const h = canvas.height;
 	gc.clearRect(0, 0, w, h);
