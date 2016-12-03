@@ -9,6 +9,7 @@
 	<script src="https://code.jquery.com/jquery.min.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script src="bundle.js"></script>
 </head>
 
@@ -21,6 +22,7 @@
 			<option value="en-US">US English</option>
 			<option value="en-GB">British English</option>
 			<option value="es-ES" selected>Spanish</option>
+			<option value="fr-FR">French</option>
 		</select>
 	</div>
 
@@ -35,6 +37,15 @@
 			<button id="b-listening" class="btn">Listening</button>
 			<button id="b-sound" class="btn">Sound</button>
 			<button id="b-speech" class="btn">Speech</button>
+		</div>
+	</div>
+
+	<div style="margin-top: 2em">
+		<div class="form-group">
+			<label>Audio osc:</label>
+			<div>
+				<canvas id="audio-osc" class="audio-graph"></canvas>
+			</div>
 		</div>
 	</div>
 

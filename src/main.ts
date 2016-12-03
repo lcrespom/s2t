@@ -1,4 +1,7 @@
+import * as listen from './listen';
+
 declare let webkitSpeechRecognition;
+
 
 function initS2T() {
 	let recognition = new webkitSpeechRecognition();
@@ -61,4 +64,5 @@ $(function () {
 	let s2t = initS2T();
 	registerS2TListeners(s2t);
 	registerButtonListeners(s2t);
+	listen.listenAndOsc($('#audio-osc')[0] as HTMLCanvasElement);
 });
