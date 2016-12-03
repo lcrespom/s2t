@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-function listenAndOsc(canvas) {
+function listenAndOsc(canvas, cb) {
     var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     var analyser = audioCtx.createAnalyser();
     var navigator = window.navigator;
@@ -12,9 +12,17 @@ function listenAndOsc(canvas) {
         var source = audioCtx.createMediaStreamSource(stream);
         source.connect(analyser);
         window.requestAnimationFrame(function (_) { return updateCanvas(ctx2d, canvas, analyser, oscData); });
+        cb(stream);
     }, function (error) { return console.error(error); });
 }
 exports.listenAndOsc = listenAndOsc;
+function stop(stream) {
+    for (var _i = 0, _a = stream.getAudioTracks(); _i < _a.length; _i++) {
+        var mst = _a[_i];
+        mst.stop();
+    }
+}
+exports.stop = stop;
 function get2dCtx(canvas) {
     var gc = canvas.getContext('2d');
     if (!gc)
@@ -89,20 +97,22 @@ function registerS2TListeners(s2t) {
     s2t.onspeechend = traceEvent('Speech end', function (_) { return $('#b-speech').removeClass('btn-info'); });
 }
 function registerButtonListeners(s2t) {
+    var stream;
     $('#s2t').click(function () {
         console.log('Listen start');
         s2t.lang = $('#langSel').val();
         s2t.start();
+        listen.listenAndOsc($('#audio-osc')[0], function (strm) { return stream = strm; });
     });
     $('#s2tstop').click(function () {
         s2t.stop();
+        listen.stop(stream);
     });
 }
 $(function () {
     var s2t = initS2T();
     registerS2TListeners(s2t);
     registerButtonListeners(s2t);
-    listen.listenAndOsc($('#audio-osc')[0]);
 });
 
 },{"./listen":1}]},{},[2])

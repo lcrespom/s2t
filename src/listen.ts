@@ -6,7 +6,7 @@ interface ModernWindow extends Window {
 declare var window: ModernWindow;
 
 
-export function listenAndOsc(canvas: HTMLCanvasElement) {
+export function listenAndOsc(canvas: HTMLCanvasElement, cb: (MediaStream) => void) {
 	let audioCtx: AudioContext = new (window.AudioContext || window.webkitAudioContext)();
 	let analyser = audioCtx.createAnalyser();
 	const navigator: any = window.navigator;
@@ -18,8 +18,14 @@ export function listenAndOsc(canvas: HTMLCanvasElement) {
 		let source = audioCtx.createMediaStreamSource(stream);
 		source.connect(analyser);
 		window.requestAnimationFrame(_ => updateCanvas(ctx2d, canvas, analyser, oscData));
+		cb(stream);
 	}, error => console.error(error));
 }
+
+export function stop(stream: MediaStream) {
+	for (let mst of stream.getAudioTracks()) mst.stop();
+}
+
 
 function get2dCtx(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
 	let gc = canvas.getContext('2d');

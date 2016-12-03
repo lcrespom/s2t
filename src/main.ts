@@ -49,14 +49,19 @@ function registerS2TListeners(s2t) {
 }
 
 function registerButtonListeners(s2t) {
+	let stream;
+
 	$('#s2t').click(function () {
 		console.log('Listen start');
 		s2t.lang = $('#langSel').val();
 		s2t.start();
+		listen.listenAndOsc($('#audio-osc')[0] as HTMLCanvasElement,
+			strm => stream = strm);
 	});
 
 	$('#s2tstop').click(function () {
 		s2t.stop();
+		listen.stop(stream);
 	});
 }
 
@@ -64,5 +69,4 @@ $(function () {
 	let s2t = initS2T();
 	registerS2TListeners(s2t);
 	registerButtonListeners(s2t);
-	listen.listenAndOsc($('#audio-osc')[0] as HTMLCanvasElement);
 });
