@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "commonjs",
+		"sourceMap": true,
+		"outDir": "js",
+		"types": [
+			"jquery", "bootstrap"
+		],
+		"strictNullChecks": true
+	},
+	"include": [
+		"src/**/*"
+	]
+}
